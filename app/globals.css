@@ -4,7 +4,7 @@
 
 @layer base {
   a {
-    @apply text-blue-500;
+    @apply text-orange-500;
   }
 }
 
