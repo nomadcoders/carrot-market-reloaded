@@ -13,7 +13,7 @@ const formSchema = z
         required_error: "Where is my username???",
       })
       .min(3, "Way too short!!!")
-      //.max(10, "That is too looooong!")
+      .max(10, "That is too looooong!")
       .trim()
       .toLowerCase()
       .transform((username) => `🔥 ${username}`)
@@ -46,7 +46,7 @@ export async function createAccount(prevState: any, formData: FormData) {
     username: formData.get("username"),
     email: formData.get("email"),
     password: formData.get("password"),
-    confirm_password: formData.get("confirm_password"),
+    confirm_password: formData.get("confirmPassword"),
   };
   const result = formSchema.safeParse(data);
   if (!result.success) {
