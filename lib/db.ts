@@ -4,13 +4,10 @@ const db = new PrismaClient();
 
 export default db;
 
-async function testPrisma() {
-  const newUser = await db.user.create({
-    data: {
-      username: "니꼬",
+db.sMSToken
+  .findMany({
+    include: {
+      user: true,
     },
-  });
-  console.log(newUser);
-}
-
-testPrisma();
+  })
+  .then(console.log);
