@@ -1,4 +1,5 @@
 export default function Loading() {
+  console.log("loading");
   return (
     <div className="p-5 animate-pulse flex flex-col gap-5">
       {[...Array(10)].map((_, index) => (
