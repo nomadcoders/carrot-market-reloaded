@@ -46,7 +46,7 @@ export default async function ProductDetail({
   }
   const isOwner = await getIsOwner(product.userId);
   return (
-    <div>
+    <div className="pb-40">
       <div className="relative aspect-square">
         <Image
           className="object-cover"
@@ -76,7 +76,7 @@ export default async function ProductDetail({
         <h1 className="text-2xl font-semibold">{product.title}</h1>
         <p>{product.description}</p>
       </div>
-      <div className="fixed w-full bottom-0 left-0 p-5 pb-10 bg-neutral-800 flex justify-between items-center">
+      <div className="fixed w-full bottom-0  p-5 pb-10 bg-neutral-800 flex justify-between items-center max-w-screen-sm">
         <span className="font-semibold text-xl">
           {formatToWon(product.price)}원
         </span>
