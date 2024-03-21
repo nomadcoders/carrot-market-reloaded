@@ -5,7 +5,11 @@ import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { unstable_cache as nextCache, revalidateTag } from "next/cache";
+import {
+  unstable_cache as nextCache,
+  revalidatePath,
+  revalidateTag,
+} from "next/cache";
 
 async function getIsOwner(userId: number) {
   const session = await getSession();
@@ -16,25 +20,17 @@ async function getIsOwner(userId: number) {
 }
 
 async function getProduct(id: number) {
-  console.log("product");
-  const product = await db.product.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      user: {
-        select: {
-          username: true,
-          avatar: true,
-        },
-      },
+  fetch("https://api.com", {
+    next: {
+      revalidate: 60,
+      tags: ["hello"],
     },
   });
-  return product;
 }
 
 const getCachedProduct = nextCache(getProduct, ["product-detail"], {
-  tags: ["product-detail", "xxxx"],
+  revalidate: 60,
+  tags: ["product-detail", "hello"],
 });
 
 async function getProductTitle(id: number) {
@@ -77,7 +73,7 @@ export default async function ProductDetail({
   const isOwner = await getIsOwner(product.userId);
   const revalidate = async () => {
     "use server";
-    revalidateTag("xxxx");
+    revalidatePath("/home");
   };
   return (
     <div className="pb-40">
