@@ -17,8 +17,11 @@ model User {
   avatar     String?
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
-  SMSToken   SMSToken[]
-  Product    Product[]
+  tokens     SMSToken[]
+  products   Product[]
+  posts      Post[]
+  Comment    Comment[]
+  Like       Like[]
 }
 
 model SMSToken {
@@ -39,6 +42,46 @@ model Product {
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     Int
+}
+
+model Post {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String?
+  views       Int     @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   Int
+  comments Comment[]
+  likes    Like[]
+}
+
+model Comment {
+  id      Int    @id @default(autoincrement())
+  payload String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId Int
+  postId Int
+}
+
+model Like {
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId Int
+  postId Int
+
+  @@id(name: "id", [userId, postId])
 }
